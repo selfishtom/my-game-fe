@@ -12,6 +12,7 @@ interface TeamPanelProps {
   onSwitchTeam?: () => void;
   onSwitchRole?: () => void;
   onKickPlayer?: (userId: string) => void;
+  onTransferOwnership?: (userId: string) => void;
 }
 
 export default function TeamPanel({
@@ -25,6 +26,7 @@ export default function TeamPanel({
   onSwitchTeam,
   onSwitchRole,
   onKickPlayer,
+  onTransferOwnership,
 }: TeamPanelProps) {
   const teamPlayers = players.filter((p) => p.team === team);
   const spymaster = teamPlayers.find((p) => p.role === "spymaster");
@@ -106,6 +108,15 @@ export default function TeamPanel({
                 🚫
               </button>
             )}
+            {isCreator && spymaster.id !== myUserId && (
+              <button
+                onClick={() => onTransferOwnership?.(spymaster.id)}
+                className="text-purple-400 hover:text-purple-300 text-xs px-1"
+                title="انتقال مدیریت"
+              >
+                👑 انتقال مدیریت
+              </button>
+            )}
           </div>
         ) : (
           <div className="bg-black-800/50 rounded p-2 text-black-500 text-sm flex justify-between items-center">
@@ -171,6 +182,16 @@ export default function TeamPanel({
                       🚫
                     </button>
                   )}
+
+                  {isCreator && guesser.id !== myUserId && (
+                    <button
+                      onClick={() => onTransferOwnership?.(guesser.id)}
+                      className="text-purple-400 hover:text-purple-300 text-xs px-1"
+                      title="انتقال مدیریت"
+                    >
+                      👑 انتقال مدیریت
+                    </button>
+                  )}
                 </div>
               </div>
             ))
@@ -230,6 +251,16 @@ export default function TeamPanel({
                     title="اخراج"
                   >
                     🚫
+                  </button>
+                )}
+
+                {isCreator && spectator.id !== myUserId && (
+                  <button
+                    onClick={() => onTransferOwnership?.(spectator.id)}
+                    className="text-purple-400 hover:text-purple-300 text-xs px-1"
+                    title="انتقال مدیریت"
+                  >
+                    👑 انتقال مدیریت
                   </button>
                 )}
               </div>

@@ -1,7 +1,7 @@
 // frontend/app/hooks/useGame.ts
 import { useState, useEffect } from "react";
 import { Socket } from "socket.io-client";
-import type { GameState, GameWord } from "../interfaces";
+import type { GameState, GameWord } from "../interfaces/game";
 
 export function useGame(
   socket: Socket | null,
@@ -19,21 +19,36 @@ export function useGame(
       turn: "red" | "blue";
       remainingGuesses: number;
     }) => {
-      console.log("🎮 Game started:", data);
-      setGameState({
+      console.log("🎮 [useGame] Game started event received:", data);
+
+      // محاسبه تعداد کلمات باقی‌مانده برای هر تیم
+      const redCount = data.words.filter((w) => w.color === "red").length;
+      const blueCount = data.words.filter((w) => w.color === "blue").length;
+
+      const newGameState: GameState = {
         words: data.words,
         turn: data.turn,
-        redTeam: { spymaster: null, guessers: [], remainingWords: 9 },
-        blueTeam: { spymaster: null, guessers: [], remainingWords: 8 },
+        redTeam: {
+          spymaster: null,
+          guessers: [],
+          remainingWords: redCount,
+        },
+        blueTeam: {
+          spymaster: null,
+          guessers: [],
+          remainingWords: blueCount,
+        },
         remainingGuesses: data.remainingGuesses,
         winner: null,
-      });
+      };
+
+      setGameState(newGameState);
       setIsGameActive(true);
     };
 
-    const handleGameStateUpdate = (newState: GameState) => {
-      console.log("📡 Game state update:", newState);
-      setGameState(newState);
+    const handleGameStateUpdate = (newState: any) => {
+      console.log("🎮 [useGame] Game state update received:", newState);
+      setGameState((prev) => (prev ? { ...prev, ...newState } : null));
     };
 
     const handleWordRevealed = (data: {
@@ -43,7 +58,7 @@ export function useGame(
       newTurn?: "red" | "blue";
       winner?: "red" | "blue" | null;
     }) => {
-      console.log("🔓 Word revealed:", data);
+      console.log("🔓 [useGame] Word revealed:", data);
 
       setGameState((prev) => {
         if (!prev) return prev;
@@ -66,6 +81,8 @@ export function useGame(
     socket.on("game-started", handleGameStarted);
     socket.on("game-state-update", handleGameStateUpdate);
     socket.on("word-revealed", handleWordRevealed);
+
+    console.log("🎮 [useGame] Socket listeners registered");
 
     return () => {
       socket.off("game-started", handleGameStarted);
@@ -95,19 +112,11 @@ export function useGame(
     }
   };
 
-  const toggleReady = () => {
-    if (socket) {
-      console.log("🔄 Toggling ready");
-      socket.emit("player-ready", { code: roomCode, userId, isReady: true });
-    }
-  };
-
   return {
     gameState,
     isGameActive,
     makeGuess,
     giveClue,
     endTurn,
-    toggleReady,
   };
 }

@@ -2,7 +2,6 @@
 interface Player {
   id: string;
   name: string;
-  isReady: boolean;
 }
 
 interface LobbyProps {
@@ -12,8 +11,6 @@ interface LobbyProps {
   myPlayerName: string;
   isConnected: boolean;
   message: string;
-  onToggleReady: () => void;
-  onStartGame: () => void; // Changed from optional to required
   isCreator: boolean;
   readyCount: number;
 }
@@ -25,10 +22,7 @@ export default function Lobby({
   myPlayerName,
   isConnected,
   message,
-  onToggleReady,
-  onStartGame,
   isCreator,
-  readyCount,
 }: LobbyProps) {
   const currentPlayer = players.find((p) => p.id === myUserId);
 
@@ -70,38 +64,11 @@ export default function Lobby({
                     {player.id === myUserId && " (You)"}
                     {isCreator && player.id === myUserId && " 👑"}
                   </span>
-                  {player.isReady && (
-                    <span className="text-green-500 text-sm">✅ Ready</span>
-                  )}
                 </li>
               ))}
             </ul>
           )}
         </div>
-
-        <div className="flex gap-4">
-          <button
-            onClick={onToggleReady}
-            className="flex-1 bg-green-600 hover:bg-green-700 py-2 rounded transition"
-          >
-            {currentPlayer?.isReady ? "❌ Not Ready" : "✅ Ready"}
-          </button>
-
-          {isCreator && readyCount >= 2 && (
-            <button
-              onClick={onStartGame}
-              className="flex-1 bg-blue-600 hover:bg-blue-700 py-2 rounded transition"
-            >
-              🚀 Start Game
-            </button>
-          )}
-        </div>
-
-        {isCreator && readyCount < 2 && players.length >= 2 && (
-          <p className="text-yellow-500 text-center mt-4 text-sm">
-            Need at least 2 ready players to start game
-          </p>
-        )}
       </div>
     </div>
   );
