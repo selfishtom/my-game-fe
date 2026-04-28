@@ -5,7 +5,11 @@ export interface Player {
   name: string;
   team: "red" | "blue" | null;
   role: "spymaster" | "guesser" | null;
-  isReady: boolean;
+}
+
+export interface Spectator {
+  id: string;
+  name: string;
 }
 
 export interface RoomUpdateData {

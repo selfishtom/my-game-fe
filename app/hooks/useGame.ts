@@ -3,22 +3,17 @@ import { useState, useEffect } from "react";
 import { Socket } from "socket.io-client";
 import type { GameState, GameWord } from "../interfaces/game";
 
-export function useGame(
-  socket: Socket | null,
-  roomCode: string,
-  userId: string,
-) {
+// prettier-ignore
+export function useGame(  socket: Socket | null,  roomCode: string,  userId: string) {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [isGameActive, setIsGameActive] = useState(false);
+  const [currentClue, setCurrentClue] = useState<{ clue: string; number: number } | null>(null);
 
   useEffect(() => {
     if (!socket) return;
 
-    const handleGameStarted = (data: {
-      words: GameWord[];
-      turn: "red" | "blue";
-      remainingGuesses: number;
-    }) => {
+    const handleGameStarted = (data: {words: GameWord[]; turn: "red" | "blue"; remainingGuesses: number;}) => 
+    {
       console.log("🎮 [useGame] Game started event received:", data);
 
       // محاسبه تعداد کلمات باقی‌مانده برای هر تیم
@@ -51,19 +46,15 @@ export function useGame(
       setGameState((prev) => (prev ? { ...prev, ...newState } : null));
     };
 
-    const handleWordRevealed = (data: {
-      wordIndex: number;
-      color: string;
-      isGameOver: boolean;
-      newTurn?: "red" | "blue";
-      winner?: "red" | "blue" | null;
-    }) => {
+    const handleWordRevealed = (data: { wordIndex: number; color: string; isGameOver: boolean; newTurn?: "red" | "blue"; winner?: "red" | "blue" | null;}) => 
+    {
       console.log("🔓 [useGame] Word revealed:", data);
 
       setGameState((prev) => {
         if (!prev) return prev;
         const newWords = [...prev.words];
-        if (data.wordIndex >= 0 && data.wordIndex < newWords.length) {
+        if (data.wordIndex >= 0 && data.wordIndex < newWords.length) 
+        {
           newWords[data.wordIndex] = {
             ...newWords[data.wordIndex],
             isRevealed: true,
@@ -78,16 +69,34 @@ export function useGame(
       });
     };
 
-    socket.on("game-started", handleGameStarted);
-    socket.on("game-state-update", handleGameStateUpdate);
-    socket.on("word-revealed", handleWordRevealed);
+    // 🔥 اضافه کردن گوش دادن به رویداد clue-given
+    const handleClueGiven = (data: { clue: string; number: number; turn: 'red' | 'blue'; remainingGuesses: number }) => {
+      console.log("💡 [useGame] Clue given:", data);
+      setCurrentClue({ clue: data.clue, number: data.number });
+      
+      // همچنین می‌توانیم remainingGuesses را در gameState به‌روز کنیم
+      setGameState(prev => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          remainingGuesses: data.remainingGuesses,
+          currentClue: { clue: data.clue, number: data.number, giverId: '' }
+        };
+      });
+    };
+
+    socket.on('game-started', handleGameStarted);
+    socket.on('game-state-update', handleGameStateUpdate);
+    socket.on('word-revealed', handleWordRevealed);
+    socket.on('clue-given', handleClueGiven);
 
     console.log("🎮 [useGame] Socket listeners registered");
 
     return () => {
-      socket.off("game-started", handleGameStarted);
-      socket.off("game-state-update", handleGameStateUpdate);
-      socket.off("word-revealed", handleWordRevealed);
+      socket.off('game-started', handleGameStarted);
+      socket.off('game-state-update', handleGameStateUpdate);
+      socket.off('word-revealed', handleWordRevealed);
+      socket.off('clue-given', handleClueGiven);
     };
   }, [socket]);
 
@@ -115,8 +124,9 @@ export function useGame(
   return {
     gameState,
     isGameActive,
+    currentClue,
     makeGuess,
     giveClue,
-    endTurn,
+    endTurn
   };
 }
