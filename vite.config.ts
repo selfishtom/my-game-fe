@@ -7,11 +7,6 @@ export default defineConfig({
   plugins: [tailwindcss(), reactRouter()],
   build: {
     outDir: "dist",
-    rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, "index.html"),
-      },
-    },
   },
   server: {
     host: "127.0.0.1",
