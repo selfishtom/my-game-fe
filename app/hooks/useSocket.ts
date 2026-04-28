@@ -2,7 +2,11 @@
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-const SOCKET_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3001";
+const SOCKET_URL =
+  import.meta.env.VITE_WS_URL ||
+  (typeof window !== "undefined"
+    ? window.location.origin
+    : "http://localhost:3001");
 
 // prettier-ignore
 export function useSocket(roomCode: string, userId: string, playerName: string,) {

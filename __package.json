@@ -1,13 +1,15 @@
 {
   "name": "my-game-fe",
+  "version": "0.6.5",
   "author": "MrFishim (A.H. Asghari)",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
-    "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "dev": "vite",
+    "build": "vite build",
+    "build:dev": "vite build --mode development",
+    "build:prod": "vite build --mode production",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@react-router/node": "7.14.0",
