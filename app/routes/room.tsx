@@ -70,7 +70,7 @@ export default function RoomPage() {
 
   const handleJoinGame = (
     team: "red" | "blue",
-    role: "spymaster" | "guesser",
+    role: "spymaster" | "operative",
   ) => {
     if (socket) {
       socket.emit("join-game", {
@@ -230,7 +230,7 @@ export default function RoomPage() {
                 myTeam={myTeam}
                 myRole={myRole}
                 onGuess={makeGuess}
-                disabled={myRole !== "guesser" || !isMyTurn}
+                disabled={myRole !== "operative" || !isMyTurn}
                 remainingGuesses={gameState.remainingGuesses}
               />
 
@@ -261,7 +261,7 @@ export default function RoomPage() {
                     <input
                       name="clue"
                       type="text"
-                      placeholder="کلمه رمز..."
+                      placeholder="سرنخ..."
                       className="flex-1 bg-gray-700 text-white rounded px-3 py-2"
                     />
                     <input
@@ -281,7 +281,7 @@ export default function RoomPage() {
                   </form>
                 </div>
               )}
-              {myRole === "guesser" && isMyTurn && (
+              {myRole === "operative" && isMyTurn && (
                 <div className="mt-4 text-center">
                   <button
                     onClick={endTurn}

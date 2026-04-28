@@ -25,12 +25,12 @@ export function useGame(  socket: Socket | null,  roomCode: string,  userId: str
         turn: data.turn,
         redTeam: {
           spymaster: null,
-          guessers: [],
+          operatives: [],
           remainingWords: redCount,
         },
         blueTeam: {
           spymaster: null,
-          guessers: [],
+          operatives: [],
           remainingWords: blueCount,
         },
         remainingGuesses: data.remainingGuesses,

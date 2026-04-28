@@ -8,7 +8,10 @@ interface TeamPanelProps {
   isCreator: boolean;
   gameStatus: "waiting" | "active" | "finished";
   onSelectTeam?: (userId: string, team: "red" | "blue") => void;
-  onSelectRole?: (team: "red" | "blue", role: "spymaster" | "guesser") => void;
+  onSelectRole?: (
+    team: "red" | "blue",
+    role: "spymaster" | "operative",
+  ) => void;
   onSwitchTeam?: () => void;
   onSwitchRole?: () => void;
   onKickPlayer?: (userId: string) => void;
@@ -30,7 +33,7 @@ export default function TeamPanel({
 }: TeamPanelProps) {
   const teamPlayers = players.filter((p) => p.team === team);
   const spymaster = teamPlayers.find((p) => p.role === "spymaster");
-  const guessers = teamPlayers.filter((p) => p.role === "guesser");
+  const operatives = teamPlayers.filter((p) => p.role === "operative");
   const spectators = players.filter((p) => p.team === null);
 
   const teamColor = team === "red" ? "red" : "blue";
@@ -43,7 +46,7 @@ export default function TeamPanel({
 
   // بررسی اینکه آیا این تیم Spymaster دارد
   const hasSpymaster = !!spymaster;
-  const hasGuessers = guessers.length > 0;
+  const hasoperatives = operatives.length > 0;
 
   return (
     <div
@@ -78,15 +81,13 @@ export default function TeamPanel({
 
       {/* Spymaster Section */}
       <div className="mb-3">
-        <div className="text-sm text-gray-400 mb-1">
-          🎭 Spymaster (رمز‌دهنده):
-        </div>
+        <div className="text-sm text-gray-400 mb-1">🎭 Spymaster :</div>
         {spymaster ? (
           <div className="bg-black-800 rounded p-2 flex justify-between items-center">
             <span>
               {spymaster.name}
               {spymaster.id === myUserId && " (You)"}
-              {!hasGuessers && gameStatus === "waiting" && " ⚠️ بدون حدس‌زن"}
+              {!hasoperatives && gameStatus === "waiting" && " ⚠️ بدون حدس‌زن"}
             </span>
             {gameStatus === "waiting" &&
               isInThisTeam &&
@@ -96,7 +97,7 @@ export default function TeamPanel({
                   onClick={onSwitchRole}
                   className="text-xs bg-gray-600 hover:bg-gray-700 px-2 py-1 rounded"
                 >
-                  تبدیل به Guesser
+                  تبدیل به Operative
                 </button>
               )}
             {isCreator && spymaster.id !== myUserId && (
@@ -133,49 +134,35 @@ export default function TeamPanel({
         )}
       </div>
 
-      {/* Guessers Section */}
+      {/* operatives Section */}
       <div>
-        <div className="text-sm text-gray-400 mb-1">
-          🎯 Guessers (حدس‌زننده):
-        </div>
+        <div className="text-sm text-gray-400 mb-1">🎯 operative :</div>
         <div className="space-y-1">
-          {guessers.length === 0 ? (
+          {operatives.length === 0 ? (
             <div className="text-black-500 text-sm flex justify-between items-center">
               <span>بدون حدس‌زن</span>
               {canSelectRole && !hasSpymaster && onSelectRole && (
                 <button
-                  onClick={() => onSelectRole(team, "guesser")}
+                  onClick={() => onSelectRole(team, "operative")}
                   className="text-xs bg-gray-600 hover:bg-gray-700 px-2 py-1 rounded"
                 >
-                  تبدیل به Guesser
+                  تبدیل به operative
                 </button>
               )}
             </div>
           ) : (
-            guessers.map((guesser) => (
+            operatives.map((operative) => (
               <div
-                key={guesser.id}
+                key={operative.id}
                 className="bg-gray-800 rounded p-1 px-2 flex justify-between items-center text-sm"
               >
                 <span>
-                  {guesser.name} {guesser.id === myUserId && "(You)"}
+                  {operative.name} {operative.id === myUserId && "(You)"}
                 </span>
                 <div className="flex gap-1">
-                  {/* {gameStatus === "waiting" &&
-                    isInThisTeam &&
-                    currentPlayer?.role === "guesser" &&
-                    currentPlayer.id === guesser.id &&
-                    onSwitchRole && (
-                      <button
-                        onClick={onSwitchRole}
-                        className="text-xs bg-gray-600 hover:bg-gray-700 px-2 py-0.5 rounded"
-                      >
-                        تبدیل به Spymaster
-                      </button>
-                    )} */}
-                  {isCreator && guesser.id !== myUserId && (
+                  {isCreator && operative.id !== myUserId && (
                     <button
-                      onClick={() => onKickPlayer?.(guesser.id)}
+                      onClick={() => onKickPlayer?.(operative.id)}
                       className="text-red-400 hover:text-black-300 text-xs"
                       title="اخراج"
                     >
@@ -183,9 +170,9 @@ export default function TeamPanel({
                     </button>
                   )}
 
-                  {isCreator && guesser.id !== myUserId && (
+                  {isCreator && operative.id !== myUserId && (
                     <button
-                      onClick={() => onTransferOwnership?.(guesser.id)}
+                      onClick={() => onTransferOwnership?.(operative.id)}
                       className="text-purple-400 hover:text-purple-300 text-xs px-1"
                       title="انتقال مدیریت"
                     >
@@ -207,7 +194,7 @@ export default function TeamPanel({
               ⚠️ این تیم نیاز به Spymaster دارد
             </div>
           )}
-          {guessers.length === 0 && (
+          {operatives.length === 0 && (
             <div className="text-yellow-500">
               ⚠️ این تیم نیاز به حدس‌زن دارد
             </div>

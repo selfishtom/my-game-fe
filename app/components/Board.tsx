@@ -8,7 +8,7 @@ interface BoardProps {
   words: GameWord[];
   currentTurn: "red" | "blue";
   myTeam: "red" | "blue" | null;
-  myRole: "spymaster" | "guesser" | null;
+  myRole: "spymaster" | "operative" | null;
   onGuess: (wordIndex: number) => void;
   disabled?: boolean;
   remainingGuesses?: number;
@@ -43,7 +43,7 @@ export default function Board({
         `}
         >
           {currentTurn === "red" ? "🔴 Red Team" : "🔵 Blue Team"}'s Turn
-          {isCurrentTurn && myRole === "guesser" && remainingGuesses > 0 && (
+          {isCurrentTurn && myRole === "operative" && remainingGuesses > 0 && (
             <span className="ml-2 text-sm opacity-80">
               ({remainingGuesses} guesses left)
             </span>

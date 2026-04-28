@@ -4,7 +4,7 @@ export interface Player {
   id: string;
   name: string;
   team: "red" | "blue" | null;
-  role: "spymaster" | "guesser" | null;
+  role: "spymaster" | "operative" | null;
 }
 
 export interface Spectator {
@@ -31,12 +31,12 @@ export interface GameState {
   turn: "red" | "blue";
   redTeam: {
     spymaster: string | null;
-    guessers: string[];
+    operatives: string[];
     remainingWords: number;
   };
   blueTeam: {
     spymaster: string | null;
-    guessers: string[];
+    operatives: string[];
     remainingWords: number;
   };
   currentClue?: {

@@ -5,7 +5,7 @@ interface SpectatorPanelProps {
   spectators: Spectator[];
   myUserId: string;
   isCreator: boolean;
-  onJoinGame: (team: "red" | "blue", role: "spymaster" | "guesser") => void;
+  onJoinGame: (team: "red" | "blue", role: "spymaster" | "operative") => void;
   onKickPlayer?: (userId: string) => void;
 }
 
@@ -73,10 +73,10 @@ export default function SpectatorPanel({
                   🎭 Spymaster
                 </button>
                 <button
-                  onClick={() => onJoinGame("red", "guesser")}
+                  onClick={() => onJoinGame("red", "operative")}
                   className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
                 >
-                  🎯 Guesser
+                  🎯 Operative
                 </button>
               </div>
             </div>
@@ -94,10 +94,10 @@ export default function SpectatorPanel({
                   🎭 Spymaster
                 </button>
                 <button
-                  onClick={() => onJoinGame("blue", "guesser")}
+                  onClick={() => onJoinGame("blue", "operative")}
                   className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
                 >
-                  🎯 Guesser
+                  🎯 Operative
                 </button>
               </div>
             </div>
