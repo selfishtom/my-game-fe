@@ -11,7 +11,7 @@ interface BoardProps {
   myRole: "spymaster" | "operative" | null;
   onGuess: (wordIndex: number) => void;
   disabled?: boolean;
-  remainingGuesses?: number;
+  remainingOperatives?: number;
 }
 
 export default function Board({
@@ -21,7 +21,7 @@ export default function Board({
   myRole,
   onGuess,
   disabled = false,
-  remainingGuesses = 0,
+  remainingOperatives = 0,
 }: BoardProps) {
   const isSpymaster = myRole === "spymaster";
   const isCurrentTurn = myTeam === currentTurn;
@@ -43,11 +43,13 @@ export default function Board({
         `}
         >
           {currentTurn === "red" ? "🔴 Red Team" : "🔵 Blue Team"}'s Turn
-          {isCurrentTurn && myRole === "operative" && remainingGuesses > 0 && (
-            <span className="ml-2 text-sm opacity-80">
-              ({remainingGuesses} guesses left)
-            </span>
-          )}
+          {isCurrentTurn &&
+            myRole === "operative" &&
+            remainingOperatives > 0 && (
+              <span className="ml-2 text-sm opacity-80">
+                ({remainingOperatives} guesses left)
+              </span>
+            )}
         </div>
       </div>
 

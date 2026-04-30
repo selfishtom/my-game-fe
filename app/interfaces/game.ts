@@ -44,6 +44,6 @@ export interface GameState {
     number: number;
     giverId: string;
   };
-  remainingGuesses: number;
+  remainingOperatives: number;
   winner: "red" | "blue" | null;
 }
