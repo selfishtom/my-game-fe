@@ -7,7 +7,6 @@ import GameOverModal from "../components/GameOverModal";
 import SpectatorPanel from "../components/SpectatorPanel";
 import GameBoardSection from "./room-helpers/components/GameBoardSection";
 import { useRoomData } from "./room-helpers/hooks/useRoomData";
-import { useGameEvents } from "./room-helpers/hooks/useGameEvents";
 
 export default function RoomPage() {
   const { code } = useParams();
@@ -21,14 +20,18 @@ export default function RoomPage() {
     roomCode,
     myUserId,
   );
-  const { players, spectators, isCreator, gameStatus, gameStarted, isLoading } =
-    useRoomData(socket, myUserId);
   const {
+    players,
+    spectators,
+    isCreator,
+    gameStatus,
+    gameStarted,
+    isLoading,
     showGameOverModal,
     gameOverMessage,
     gameOverWinner,
     setShowGameOverModal,
-  } = useGameEvents(socket);
+  } = useRoomData(socket, myUserId);
 
   useEffect(() => {
     let userId = localStorage.getItem("codenames_userId");
@@ -63,6 +66,13 @@ export default function RoomPage() {
     }
   };
 
+  const handleRestartGame = () => {
+    if (socket && isCreator) {
+      console.log("🔄 Sending restart-game event");
+      socket.emit("restart-game", { code: roomCode, userId: myUserId });
+    }
+  };
+
   if (!roomCode || roomCode.length !== 6) return <div>Invalid room code</div>;
   if (isLoading) return <div>Loading...</div>;
 
@@ -77,6 +87,7 @@ export default function RoomPage() {
           winner={gameOverWinner}
           message={gameOverMessage}
           onClose={() => setShowGameOverModal(false)}
+          onRestart={handleRestartGame}
         />
       )}
 
