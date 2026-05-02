@@ -50,7 +50,7 @@ export default function TeamPanel({
 
   return (
     <div
-      className={`${bgColor} border ${borderColor} rounded-lg p-4 flex-1 min-w-[250px]`}
+      className={`${bgColor} border ${borderColor} rounded-lg p-4 flex-1 min-w-62.5`}
     >
       <div className="flex justify-between items-center mb-3">
         <h2
@@ -121,7 +121,7 @@ export default function TeamPanel({
           </div>
         ) : (
           <div className="bg-black-800/50 rounded p-2 text-black-500 text-sm flex justify-between items-center">
-            <span>بدون Spymaster</span>
+            <span className="text-lime-400">بدون Spymaster</span>
             {canSelectRole && !hasSpymaster && onSelectRole && (
               <button
                 onClick={() => onSelectRole(team, "spymaster")}
@@ -140,7 +140,7 @@ export default function TeamPanel({
         <div className="space-y-1">
           {operatives.length === 0 ? (
             <div className="text-black-500 text-sm flex justify-between items-center">
-              <span>بدون Operative</span>
+              <span className="text-lime-400">بدون Operative</span>
               {canSelectRole && !hasSpymaster && onSelectRole && (
                 <button
                   onClick={() => onSelectRole(team, "operative")}
@@ -156,7 +156,7 @@ export default function TeamPanel({
                 key={operative.id}
                 className="bg-gray-800 rounded p-1 px-2 flex justify-between items-center text-sm"
               >
-                <span>
+                <span className="text-lime-400">
                   {operative.name} {operative.id === myUserId && "(You)"}
                 </span>
                 <div className="flex gap-1">

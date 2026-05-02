@@ -60,27 +60,6 @@ export default function SpectatorPanel({
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* تیم قرمز */}
-            <div className="border border-red-500 rounded p-3">
-              <h3 className="text-red-500 font-bold mb-2 text-center">
-                🔴 تیم قرمز
-              </h3>
-              <div className="flex flex-col gap-2">
-                <button
-                  onClick={() => onJoinGame("red", "spymaster")}
-                  className="bg-purple-600 hover:bg-purple-700 text-white py-2 rounded transition"
-                >
-                  🎭 Spymaster
-                </button>
-                <button
-                  onClick={() => onJoinGame("red", "operative")}
-                  className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
-                >
-                  🎯 Operative
-                </button>
-              </div>
-            </div>
-
             {/* تیم آبی */}
             <div className="border border-blue-500 rounded p-3">
               <h3 className="text-blue-500 font-bold mb-2 text-center">
@@ -95,6 +74,27 @@ export default function SpectatorPanel({
                 </button>
                 <button
                   onClick={() => onJoinGame("blue", "operative")}
+                  className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
+                >
+                  🎯 Operative
+                </button>
+              </div>
+            </div>
+
+            {/* تیم قرمز */}
+            <div className="border border-red-500 rounded p-3">
+              <h3 className="text-red-500 font-bold mb-2 text-center">
+                🔴 تیم قرمز
+              </h3>
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => onJoinGame("red", "spymaster")}
+                  className="bg-purple-600 hover:bg-purple-700 text-white py-2 rounded transition"
+                >
+                  🎭 Spymaster
+                </button>
+                <button
+                  onClick={() => onJoinGame("red", "operative")}
                   className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
                 >
                   🎯 Operative
