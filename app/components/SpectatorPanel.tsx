@@ -34,7 +34,7 @@ export default function SpectatorPanel({
               key={spectator.id}
               className="bg-gray-700 px-3 py-1 rounded-full text-sm flex items-center gap-2"
             >
-              <span>{spectator.name}</span>
+              <span className="text-lime-400">{spectator.name}</span>
               {spectator.id === myUserId && (
                 <span className="text-yellow-400 text-xs">(شما)</span>
               )}

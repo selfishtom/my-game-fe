@@ -84,7 +84,7 @@ export default function TeamPanel({
         <div className="text-sm text-gray-400 mb-1">🎭 Spymaster :</div>
         {spymaster ? (
           <div className="bg-black-800 rounded p-2 flex justify-between items-center">
-            <span>
+            <span className="text-lime-400">
               {spymaster.name}
               {spymaster.id === myUserId && " (You)"}
               {!hasoperatives && gameStatus === "waiting" && " ⚠️ بدون حدس‌زن"}
