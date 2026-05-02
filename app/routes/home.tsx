@@ -115,6 +115,25 @@ export default function HomePage() {
             ورود به روم
           </button>
         </form>
+
+        <div className="mt-8 text-center">
+          <div className="inline-block p-4 bg-gray-800/50 rounded-lg">
+            <p className="text-gray-400 text-sm mb-2">
+              💝 اگر از این بازی لذت می‌برید، صدقه شما باعث ادامه توسعه می‌شود.
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <a
+                href="https://donofa.ir/MrFishim/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition text-sm"
+              >
+                <span>💝</span>
+                <span>صدقه</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
