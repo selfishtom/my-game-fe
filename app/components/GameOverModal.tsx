@@ -3,12 +3,14 @@ interface GameOverModalProps {
   winner: "red" | "blue" | null;
   message: string;
   onClose: () => void;
+  onRestart?: () => void;
 }
 
 export default function GameOverModal({
   winner,
   message,
   onClose,
+  onRestart,
 }: GameOverModalProps) {
   const winnerColor = winner === "red" ? "text-red-500" : "text-blue-500";
   const winnerIcon = winner === "red" ? "🔴" : "🔵";
@@ -27,6 +29,14 @@ export default function GameOverModal({
         >
           بستن
         </button>
+        {onRestart && (
+          <button
+            onClick={onRestart}
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition"
+          >
+            🔄 بازی جدید
+          </button>
+        )}
       </div>
     </div>
   );

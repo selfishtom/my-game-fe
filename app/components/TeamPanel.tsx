@@ -136,17 +136,17 @@ export default function TeamPanel({
 
       {/* operatives Section */}
       <div>
-        <div className="text-sm text-gray-400 mb-1">🎯 operative :</div>
+        <div className="text-sm text-gray-400 mb-1">🎯 Operative :</div>
         <div className="space-y-1">
           {operatives.length === 0 ? (
             <div className="text-black-500 text-sm flex justify-between items-center">
-              <span>بدون حدس‌زن</span>
+              <span>بدون Operative</span>
               {canSelectRole && !hasSpymaster && onSelectRole && (
                 <button
                   onClick={() => onSelectRole(team, "operative")}
                   className="text-xs bg-gray-600 hover:bg-gray-700 px-2 py-1 rounded"
                 >
-                  تبدیل به operative
+                  تبدیل به Operative
                 </button>
               )}
             </div>
