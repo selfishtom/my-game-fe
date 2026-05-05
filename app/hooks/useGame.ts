@@ -188,6 +188,15 @@ export function useGame(
   }, [socket]);
 
   const makeGuess = (wordIndex: number) => {
+    if (gameState?.words[wordIndex]?.isRevealed) {
+      console.warn(
+        "⚠️ Word already revealed:",
+        gameState.words[wordIndex].word,
+        "ignoring guess",
+      );
+      return;
+    }
+
     if (socket && gameState) {
       console.log("🔨 Making guess:", wordIndex);
       socket.emit("make-guess", { code: roomCode, userId, wordIndex });

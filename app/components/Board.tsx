@@ -32,6 +32,11 @@ export default function Board({
     rows.push(words.slice(i, i + 5));
   }
 
+  console.log(
+    "Board render:",
+    words.map((w) => ({ word: w.word, revealed: w.isRevealed })),
+  );
+
   return (
     <div className="w-full">
       {/* Turn Indicator */}

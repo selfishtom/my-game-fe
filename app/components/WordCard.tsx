@@ -82,7 +82,7 @@ export default function WordCard({
 
   return (
     <button
-      onClick={handleClick}
+      onClick={canGuess ? onGuess : undefined}
       disabled={!canGuess}
       className={`
         ${getCardColor()}
