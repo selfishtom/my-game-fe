@@ -9,10 +9,15 @@ export function links() {
 // ✅ این کامپوننت در هنگام لود اولیه صفحه نشان داده می‌شود
 export function HydrateFallback() {
   return (
-    <html lang="en">
+    <html lang="fa" dir="rtl">
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"
+        />
+        <meta name="theme-color" content="#1f2937" />
+        <title>Codenames - بازی گروهی آنلاین</title>
         <Meta />
         <Links />
       </head>
@@ -28,14 +33,19 @@ export function HydrateFallback() {
 
 export default function Root() {
   return (
-    <html lang="fa">
+    <html lang="fa" dir="rtl">
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"
+        />
+        <meta name="theme-color" content="#1f2937" />
+        <title>Codenames - بازی گروهی آنلاین</title>
         <Meta />
         <Links />
       </head>
-      <body dir="rtl">
+      <body>
         <Outlet />
         <ScrollRestoration />
         <Scripts />

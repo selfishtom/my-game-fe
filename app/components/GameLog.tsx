@@ -30,12 +30,10 @@ export default function GameLog({ socket, roomCode }: GameLogProps) {
     if (!socket) return;
 
     const handleGameLog = (data: { log: GameLogEntry }) => {
-      console.log("📝 New log received:", data.log);
       setLogs((prev) => [...prev, data.log]);
     };
 
     const handleGameLogs = (data: { logs: GameLogEntry[] }) => {
-      console.log("📝 Initial logs received:", data.logs.length);
       setLogs(data.logs);
     };
 
@@ -100,29 +98,32 @@ export default function GameLog({ socket, roomCode }: GameLogProps) {
 
   const formatTime = (timestamp: number) => {
     const date = new Date(timestamp);
-    return `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date.getSeconds().toString().padStart(2, "0")}`;
+    return `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg p-3 h-[calc(100vh-2rem)] flex flex-col">
-      <h3 className="text-gray-400 font-bold mb-2 text-sm border-b border-gray-700 pb-2">
+    <div className="bg-gray-800 rounded-lg p-2 xs:p-3 h-full flex flex-col">
+      <h3 className="text-gray-400 font-bold mb-1 xs:mb-2 text-xs sm:text-sm border-b border-gray-700 pb-1 xs:pb-2">
         رویداد ها
       </h3>
-      <div ref={logsContainerRef} className="flex-1 overflow-y-auto space-y-1">
+      <div
+        ref={logsContainerRef}
+        className="flex-1 overflow-y-auto space-y-0.5 xs:space-y-1"
+      >
         {logs.length === 0 ? (
-          <p className="text-gray-500 text-center text-sm py-4">
+          <p className="text-gray-500 text-center text-xs py-4">
             هنوز رویدادی ثبت نشده است
           </p>
         ) : (
           logs.map((log) => (
             <div
               key={log.id}
-              className={`text-xs py-1 border-b border-gray-700 last:border-0 ${getLogColor(log.type)}`}
+              className={`text-[10px] xs:text-xs py-0.5 border-b border-gray-700 last:border-0 ${getLogColor(log.type)}`}
             >
-              <span className="text-gray-500 text-[10px] ml-2">
+              <span className="text-gray-500 text-[8px] xs:text-[10px] ml-1 xs:ml-2">
                 {formatTime(log.timestamp)}
               </span>
-              <span className="ml-1">{getLogIcon(log.type)}</span>
+              <span className="ml-0.5 xs:ml-1">{getLogIcon(log.type)}</span>
               <span className="break-words">{log.message}</span>
             </div>
           ))

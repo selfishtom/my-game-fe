@@ -15,7 +15,7 @@ interface TeamPanelProps {
   onSwitchTeam?: () => void;
   onSwitchRole?: () => void;
   onKickPlayer?: (userId: string) => void;
-  onTransferOwnership?: (userId: string) => void;
+  // onTransferOwnership?: (userId: string) => void;
 }
 
 export default function TeamPanel({
@@ -29,7 +29,7 @@ export default function TeamPanel({
   onSwitchTeam,
   onSwitchRole,
   onKickPlayer,
-  onTransferOwnership,
+  // onTransferOwnership,
 }: TeamPanelProps) {
   const teamPlayers = players.filter((p) => p.team === team);
   const spymaster = teamPlayers.find((p) => p.role === "spymaster");
@@ -50,11 +50,11 @@ export default function TeamPanel({
 
   return (
     <div
-      className={`${bgColor} border ${borderColor} rounded-lg p-4 flex-1 min-w-62.5`}
+      className={`${bgColor} border ${borderColor} rounded-lg p-2 xs:p-3 sm:p-4 flex-1 min-w-[120px] xs:min-w-[150px] sm:min-w-[200px]`}
     >
-      <div className="flex justify-between items-center mb-3">
+      <div className="flex justify-between items-center mb-2 sm:mb-3 flex-wrap gap-1">
         <h2
-          className={`text-xl font-bold ${team === "red" ? "text-red-500" : "text-blue-500"}`}
+          className={`text-base sm:text-lg md:text-xl font-bold ${team === "red" ? "text-red-500" : "text-blue-500"}`}
         >
           {team === "red" ? "🔴 تیم قرمز" : "🔵 تیم آبی"}
         </h2>
@@ -64,7 +64,7 @@ export default function TeamPanel({
           onSelectTeam && (
             <button
               onClick={() => onSelectTeam(myUserId, team)}
-              className="text-xs bg-green-600 hover:bg-green-700 px-2 py-1 rounded"
+              className="text-[10px] xs:text-xs bg-green-600 hover:bg-green-700 px-1 xs:px-2 py-0.5 rounded"
             >
               ✚ این تیم
             </button>
@@ -72,7 +72,7 @@ export default function TeamPanel({
         {gameStatus === "waiting" && isInThisTeam && onSwitchTeam && (
           <button
             onClick={onSwitchTeam}
-            className="text-xs bg-yellow-600 hover:bg-yellow-700 px-2 py-1 rounded"
+            className="text-[10px] xs:text-xs bg-yellow-600 hover:bg-yellow-700 px-1 xs:px-2 py-0.5 rounded"
           >
             🔄 تغییر تیم
           </button>
@@ -80,10 +80,12 @@ export default function TeamPanel({
       </div>
 
       {/* Spymaster Section */}
-      <div className="mb-3">
-        <div className="text-sm text-gray-400 mb-1">🎭 Spymaster :</div>
+      <div className="mb-2 sm:mb-3">
+        <div className="text-xs text-gray-400 mb-0.5 sm:mb-1">
+          🎭 Spymaster :
+        </div>
         {spymaster ? (
-          <div className="bg-black-800 rounded p-2 flex justify-between items-center">
+          <div className="bg-gray-800 rounded p-1 xs:p-2 flex justify-between items-center text-xs sm:text-sm">
             <span className="text-lime-400">
               {spymaster.name}
               {spymaster.id === myUserId && " (You)"}
@@ -95,7 +97,7 @@ export default function TeamPanel({
               onSwitchRole && (
                 <button
                   onClick={onSwitchRole}
-                  className="text-xs bg-gray-600 hover:bg-gray-700 px-2 py-1 rounded"
+                  className="text-[10px] xs:text-xs bg-yellow-600 hover:bg-yellow-700 px-1 xs:px-2 py-0.5 rounded"
                 >
                   تبدیل به Operative
                 </button>
@@ -103,29 +105,20 @@ export default function TeamPanel({
             {isCreator && spymaster.id !== myUserId && (
               <button
                 onClick={() => onKickPlayer?.(spymaster.id)}
-                className="text-red-400 hover:text-red-300 text-sm px-2"
+                className="text-red-400 hover:text-red-300 text-xs"
                 title="اخراج"
               >
                 🚫
               </button>
             )}
-            {isCreator && spymaster.id !== myUserId && (
-              <button
-                onClick={() => onTransferOwnership?.(spymaster.id)}
-                className="text-purple-400 hover:text-purple-300 text-xs px-1"
-                title="انتقال مدیریت"
-              >
-                👑 انتقال مدیریت
-              </button>
-            )}
           </div>
         ) : (
-          <div className="bg-black-800/50 rounded p-2 text-black-500 text-sm flex justify-between items-center">
+          <div className="bg-gray-800/50 rounded p-1 xs:p-2 text-gray-500 text-xs sm:text-sm flex justify-between items-center">
             <span className="text-lime-400">بدون Spymaster</span>
             {canSelectRole && !hasSpymaster && onSelectRole && (
               <button
                 onClick={() => onSelectRole(team, "spymaster")}
-                className="text-xs bg-gray-600 hover:bg-gray-700 px-2 py-1 rounded"
+                className="text-[10px] xs:text-xs bg-purple-600 hover:bg-purple-700 px-1 xs:px-2 py-0.5 rounded"
               >
                 تبدیل به Spymaster
               </button>
@@ -136,15 +129,17 @@ export default function TeamPanel({
 
       {/* operatives Section */}
       <div>
-        <div className="text-sm text-gray-400 mb-1">🎯 Operative :</div>
-        <div className="space-y-1">
+        <div className="text-xs text-gray-400 mb-0.5 sm:mb-1">
+          🎯 Operative :
+        </div>
+        <div className="space-y-0.5 sm:space-y-1">
           {operatives.length === 0 ? (
-            <div className="text-black-500 text-sm flex justify-between items-center">
+            <div className="text-gray-500 text-xs flex justify-between items-center">
               <span className="text-lime-400">بدون Operative</span>
               {canSelectRole && !hasSpymaster && onSelectRole && (
                 <button
                   onClick={() => onSelectRole(team, "operative")}
-                  className="text-xs bg-gray-600 hover:bg-gray-700 px-2 py-1 rounded"
+                  className="text-[10px] xs:text-xs bg-blue-600 hover:bg-blue-700 px-1 xs:px-2 py-0.5 rounded"
                 >
                   تبدیل به Operative
                 </button>
@@ -154,103 +149,48 @@ export default function TeamPanel({
             operatives.map((operative) => (
               <div
                 key={operative.id}
-                className="bg-gray-800 rounded p-1 px-2 flex justify-between items-center text-sm"
+                className="bg-gray-800 rounded p-1 px-1 xs:px-2 flex justify-between items-center text-xs sm:text-sm"
               >
-                <span className="text-lime-400">
+                <span className="text-lime-400 truncate max-w-[100px] xs:max-w-[150px]">
                   {operative.name} {operative.id === myUserId && "(You)"}
                 </span>
-                <div className="flex gap-1">
-                  {isCreator && operative.id !== myUserId && (
-                    <button
-                      onClick={() => onKickPlayer?.(operative.id)}
-                      className="text-red-400 hover:text-black-300 text-xs"
-                      title="اخراج"
-                    >
-                      🚫
-                    </button>
-                  )}
-
-                  {isCreator && operative.id !== myUserId && (
-                    <button
-                      onClick={() => onTransferOwnership?.(operative.id)}
-                      className="text-purple-400 hover:text-purple-300 text-xs px-1"
-                      title="انتقال مدیریت"
-                    >
-                      👑 انتقال مدیریت
-                    </button>
-                  )}
-                </div>
+                {/* <div className="flex gap-1"> */}
+                {isCreator && operative.id !== myUserId && (
+                  <button
+                    onClick={() => onKickPlayer?.(operative.id)}
+                    className="text-red-400 hover:text-black-300 text-xs"
+                    title="اخراج"
+                  >
+                    🚫
+                  </button>
+                )}
               </div>
             ))
           )}
         </div>
       </div>
 
-      {/* Team Status Warning */}
-      {gameStatus === "waiting" && (
-        <div className="mt-3 pt-2 border-t border-gray-700 text-xs">
-          {!spymaster && (
-            <div className="text-yellow-500">
-              ⚠️ این تیم نیاز به Spymaster دارد
-            </div>
-          )}
-          {operatives.length === 0 && (
-            <div className="text-yellow-500">
-              ⚠️ این تیم نیاز به حدس‌زن دارد
-            </div>
-          )}
-        </div>
-      )}
-
       {/* Spectators waiting for team assignment */}
       {gameStatus === "waiting" && spectators.length > 0 && (
-        <div className="mt-3 pt-2 border-t border-gray-700">
-          <div className="text-xs text-gray-500 mb-1">
+        <div className="mt-2 sm:mt-3 pt-1 sm:pt-2 border-t border-gray-700">
+          <div className="text-[10px] text-gray-500 mb-0.5">
             👁️ در انتظار انتخاب تیم:
           </div>
           {spectators.map((spectator) => (
             <div
               key={spectator.id}
-              className="text-xs text-gray-400 flex justify-between items-center mt-1"
+              className="text-[10px] text-gray-400 flex justify-between items-center"
             >
-              <span>{spectator.name}</span>
-              <div className="flex gap-1">
-                {onSelectTeam && (
-                  <>
-                    <button
-                      onClick={() => onSelectTeam(spectator.id, "red")}
-                      className="text-red-400 hover:text-red-300 text-xs px-1"
-                    >
-                      🔴 قرمز
-                    </button>
-                    <button
-                      onClick={() => onSelectTeam(spectator.id, "blue")}
-                      className="text-blue-400 hover:text-blue-300 text-xs px-1"
-                    >
-                      🔵 آبی
-                    </button>
-                  </>
-                )}
-                {isCreator && spectator.id !== myUserId && onKickPlayer && (
-                  <button
-                    onClick={() => onKickPlayer(spectator.id)}
-                    className="text-red-400 hover:text-red-300 text-xs"
-                    title="اخراج"
-                  >
-                    🚫
-                  </button>
-                )}
-
-                {isCreator && spectator.id !== myUserId && (
-                  <button
-                    onClick={() => onTransferOwnership?.(spectator.id)}
-                    className="text-purple-400 hover:text-purple-300 text-xs px-1"
-                    title="انتقال مدیریت"
-                  >
-                    👑 انتقال مدیریت
-                  </button>
-                )}
-              </div>
+              <span className="truncate">{spectator.name}</span>
+              {isCreator && spectator.id !== myUserId && onKickPlayer && (
+                <button
+                  onClick={() => onKickPlayer(spectator.id)}
+                  className="text-red-400 hover:text-red-300"
+                  title="اخراج"
+                >
+                  🚫
+                </button>
+              )}
             </div>
           ))}
         </div>

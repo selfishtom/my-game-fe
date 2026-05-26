@@ -57,12 +57,6 @@ export default function WordCard({
   const canGuess =
     !isSpymaster && !isRevealed && isCurrentTurn && isMyTeam && !disabled;
 
-  const handleClick = () => {
-    if (canGuess) {
-      onGuess();
-    }
-  };
-
   // ایموجی برای کارت‌های باز شده
   const getEmoji = () => {
     if (!isRevealed) return null;
@@ -82,19 +76,22 @@ export default function WordCard({
 
   return (
     <button
-      onClick={canGuess ? onGuess : undefined}
+      onClick={onGuess}
       disabled={!canGuess}
       className={`
         ${getCardColor()}
-        p-3 md:p-4 rounded-lg text-center min-h-[80px] md:min-h-[100px]
+        p-2 xs:p-2 sm:p-3 md:p-4
+        rounded-lg text-center 
+        min-h-[60px] xs:min-h-[70px] sm:min-h-[80px] md:min-h-[100px]
         transition-all duration-200
         ${canGuess ? "cursor-pointer hover:scale-105 hover:shadow-lg" : "cursor-default"}
         ${disabled ? "opacity-50" : ""}
+        text-xs xs:text-sm sm:text-base
       `}
     >
-      <p className="font-bold text-sm md:text-base break-words">{word}</p>
+      <p className="font-bold break-words line-clamp-2">{word}</p>
       {getEmoji() && (
-        <p className="text-xs md:text-sm mt-1 opacity-80">{getEmoji()}</p>
+        <p className="text-xs mt-0.5 sm:mt-1 opacity-80">{getEmoji()}</p>
       )}
     </button>
   );

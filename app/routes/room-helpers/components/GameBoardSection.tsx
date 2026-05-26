@@ -106,9 +106,9 @@ export default function GameBoardSection({
         )}
 
         {/* Main Game Layout - 3 columns */}
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col md:flex-row gap-2 sm:gap-4">
           {/* Left: Blue Team Panel */}
-          <div className="md:w-64 order-1">
+          <div className="w-full md:w-64 order-1">
             <TeamPanel
               team="blue"
               players={players}
@@ -116,7 +116,7 @@ export default function GameBoardSection({
               isCreator={isCreator}
               gameStatus="active"
               onKickPlayer={onKickPlayer}
-              onTransferOwnership={onTransferOwnership}
+              // onTransferOwnership={onTransferOwnership}
             />
           </div>
 
@@ -140,7 +140,7 @@ export default function GameBoardSection({
           </div>
 
           {/* Right: Red Team Panel */}
-          <div className="md:w-64 order-3">
+          <div className="w-full md:w-64 order-3">
             <TeamPanel
               team="red"
               players={players}
@@ -148,7 +148,7 @@ export default function GameBoardSection({
               isCreator={isCreator}
               gameStatus="active"
               onKickPlayer={onKickPlayer}
-              onTransferOwnership={onTransferOwnership}
+              // onTransferOwnership={onTransferOwnership}
             />
           </div>
         </div>
