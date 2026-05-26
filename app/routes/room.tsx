@@ -7,6 +7,7 @@ import GameOverModal from "../components/GameOverModal";
 import SpectatorPanel from "../components/SpectatorPanel";
 import GameBoardSection from "./room-helpers/components/GameBoardSection";
 import { useRoomData } from "./room-helpers/hooks/useRoomData";
+import GameLog from "../components/GameLog";
 
 export default function RoomPage() {
   const { code } = useParams();
@@ -68,7 +69,7 @@ export default function RoomPage() {
 
   const handleRestartGame = () => {
     if (socket && isCreator) {
-      console.log("🔄 Sending restart-game event");
+      // console.log("🔄 Sending restart-game event");
       socket.emit("restart-game", { code: roomCode, userId: myUserId });
     }
   };
@@ -92,25 +93,33 @@ export default function RoomPage() {
       )}
 
       {gameStarted && gameState && gameStatus === "active" && isInGame ? (
-        <GameBoardSection
-          roomCode={roomCode}
-          playerName={myPlayerName}
-          players={players}
-          spectators={spectators}
-          myUserId={myUserId}
-          isCreator={isCreator}
-          gameState={gameState}
-          onMakeGuess={makeGuess}
-          onGiveClue={giveClue}
-          onEndTurn={endTurn}
-          onKickPlayer={(targetUserId) =>
-            socket?.emit("kick-user", {
-              code: roomCode,
-              userId: myUserId,
-              targetUserId,
-            })
-          }
-        />
+        <div className="flex h-screen overflow-hidden bg-gray-900">
+          <div className="flex-1 overflow-auto">
+            <GameBoardSection
+              roomCode={roomCode}
+              playerName={myPlayerName}
+              players={players}
+              spectators={spectators}
+              myUserId={myUserId}
+              isCreator={isCreator}
+              gameState={gameState}
+              onMakeGuess={makeGuess}
+              onGiveClue={giveClue}
+              onEndTurn={endTurn}
+              onKickPlayer={(targetUserId) =>
+                socket?.emit("kick-user", {
+                  code: roomCode,
+                  userId: myUserId,
+                  targetUserId,
+                })
+              }
+            />
+          </div>
+
+          <div className="w-80 order-first p-4">
+            <GameLog socket={socket} roomCode={roomCode} />
+          </div>
+        </div>
       ) : (
         <div className="min-h-screen bg-gray-900 p-8">
           <div className="max-w-6xl mx-auto">
