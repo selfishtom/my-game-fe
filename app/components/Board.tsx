@@ -27,15 +27,10 @@ export default function Board({
   const isCurrentTurn = myTeam === currentTurn;
 
   // تقسیم کلمات به ردیف‌های 5 تایی
-  const rows: GameWord[][] = [];
-  for (let i = 0; i < words.length; i += 5) {
-    rows.push(words.slice(i, i + 5));
-  }
-
-  // console.log(
-  //   "Board render:",
-  //   words.map((w) => ({ word: w.word, revealed: w.isRevealed })),
-  // );
+  // const rows: GameWord[][] = [];
+  // for (let i = 0; i < words.length; i += 5) {
+  //   rows.push(words.slice(i, i + 5));
+  // }
 
   return (
     <div className="w-full px-1 xs:px-2 sm:px-0">
@@ -60,7 +55,7 @@ export default function Board({
 
       {/* Game Board Grid */}
       <div className="bg-gray-800 rounded-lg p-1 xs:p-2 sm:p-4">
-        <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-5 gap-1 xs:gap-2">
+        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-1 xs:gap-2">
           {words.map((word, index) => (
             <WordCard
               key={index}
@@ -80,17 +75,17 @@ export default function Board({
       {/* Game Info Footer */}
       <div className="mt-2 sm:mt-4 text-center text-gray-400 text-[10px] sm:text-sm">
         {isSpymaster && (
-          <p className="text-yellow-400">
+          <p className="text-yellow-400 text-[10px] sm:text-xs md:text-sm">
             🔍 شما Spymaster هستید - رنگ کلمات را می‌بینید!
           </p>
         )}
         {!isSpymaster && myTeam === currentTurn && (
-          <p className="text-green-400">
+          <p className="text-green-400 text-[10px] sm:text-xs md:text-sm">
             🎯 نوبت شماست! روی کلماتی که فکر می‌کنید درست هستند کلیک کنید.
           </p>
         )}
         {!isSpymaster && myTeam !== currentTurn && (
-          <p className="text-gray-500">
+          <p className="text-gray-500 text-[10px] sm:text-xs md:text-sm">
             ⏳ منتظر نوبت {currentTurn === "red" ? "تیم قرمز" : "تیم آبی"}...
           </p>
         )}

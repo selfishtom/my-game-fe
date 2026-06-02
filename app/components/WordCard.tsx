@@ -80,18 +80,22 @@ export default function WordCard({
       disabled={!canGuess}
       className={`
         ${getCardColor()}
-        p-2 xs:p-2 sm:p-3 md:p-4
+        p-1 xs:p-2 sm:p-3 md:p-4
         rounded-lg text-center 
-        min-h-[60px] xs:min-h-[70px] sm:min-h-[80px] md:min-h-[100px]
+        min-h-[50px] xs:min-h-[60px] sm:min-h-[70px] md:min-h-[80px] lg:min-h-[100px]
         transition-all duration-200
         ${canGuess ? "cursor-pointer hover:scale-105 hover:shadow-lg" : "cursor-default"}
         ${disabled ? "opacity-50" : ""}
-        text-xs xs:text-sm sm:text-base
+        text-[10px] xs:text-xs sm:text-sm md:text-base
+        break-words
+        w-full
       `}
     >
       <p className="font-bold break-words line-clamp-2">{word}</p>
       {getEmoji() && (
-        <p className="text-xs mt-0.5 sm:mt-1 opacity-80">{getEmoji()}</p>
+        <p className="text-[8px] xs:text-[10px] sm:text-xs mt-0.5 opacity-80">
+          {getEmoji()}
+        </p>
       )}
     </button>
   );
